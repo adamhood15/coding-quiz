@@ -33,7 +33,7 @@ h1 {
     text-align: center;
 }
 
-#a, #b, #c, #d {
+.answer-buttons {
     visibility: hidden;
     display: block;
 }
