@@ -33,5 +33,9 @@ h1 {
     text-align: center;
 }
 
+#a, #b, #c, #d {
+    visibility: hidden;
+    display: block;
+}
 
 
