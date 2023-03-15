@@ -9,6 +9,7 @@ var answerChoice1 = document.querySelector('#answer-choice-1');
 var answerChoice2 = document.querySelector('#answer-choice-2');
 var answerChoice3 = document.querySelector('#answer-choice-3');
 var answerChoice4 = document.querySelector('#answer-choice-4');
+var contentContainer = document.querySelector('.content');
 var next = true;
 
 var time = 60;
@@ -62,6 +63,10 @@ var questions = [
 function quizStart() {
   
     document.body.style.backgroundColor = 'blue';
+    var nextButton = document.createElement('button')
+    contentContainer.appendChild(nextButton);
+    nextButton.textContent = 'Next Question';
+    nextButton.style = 'width: 100%; background-color: black; color: white;';
 
     startTimer();
     hideHome();
@@ -95,7 +100,7 @@ function hideChoices() {
 }
 
 
-
+//Loops through to the next question every time a user clicks on an answer choice
 function nextQuestion() {
     answerButtonsContainer.style.visibility = 'visible';
 
@@ -107,12 +112,15 @@ function nextQuestion() {
             answerChoice3.textContent = questions[i].choices[2];
             answerChoice4.textContent = questions[i].choices[3];
         }
+    
+   
+    
     counter++;
+    console.log(userChoice);
 
 }
 
 
-//Next Question Function
 
 
 //Create Questions for the test
