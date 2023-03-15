@@ -35,16 +35,16 @@ var questions = [
 
     {
     'question': 'What does HTML do?',
-    'choices': ['Styles the webpage',
-                'Contains the content of the webpage', 
+    'choices': ['Reads all text on the screen',
+                'Creates the content of the webpage', 
                 'Changes the style of the document body', 
-                'Makes the webpage interactive'],
-    'answer': 'Contains the content of the webpage'},
+                'Sends the browser data to a server'],
+    'answer': 'Creates the content of the webpage'},
     {
     'question': 'What does CSS do?',
     'choices': ['Styles the paragraphs of a webpage',
                 'Holds the content of the webpage', 
-                'Makes the webpage interactive', 
+                'Contains the content of a webpage', 
                 'Styles the webpage'],
     'answer': 'Styles the webpage'},
     {
@@ -52,9 +52,10 @@ var questions = [
     'choices': ['Makes the webpage interactive',
                 'Holds the content of the page', 
                 'Changes the font of the page', 
-                'Styles the webpage'],
+                'Styles the look of the webpage'],
     'answer': 'Makes the webpage interactive'}
 ]
+
 
 
 
@@ -99,6 +100,7 @@ function hideChoices() {
 //Loops through to the next question every time a user clicks on an answer choice
 function nextQuestion() {
     answerButtonsContainer.style.visibility = 'visible';
+    document.body.style.backgroundColor = 'blue';
 
     for (let i = 0; i <= counter; i++) {
             questionHeader.textContent = questions[i].question;
@@ -114,8 +116,27 @@ function nextQuestion() {
 
 }
 
-function feedback() {
-    
+
+function feedback(event) {
+
+
+    for (let j = 0; j <= questions.length; j++) {
+
+        if ((event.target.textContent == questions[0].answer) ||
+            (event.target.textContent == questions[1].answer) ||
+            (event.target.textContent == questions[2].answer) ||
+            (event.target.textContent == questions[3].answer)) {
+
+            document.body.style.backgroundColor = 'green';
+            return console.log(event.target.textContent);
+
+        } else {
+            document.body.style.backgroundColor = 'red';
+            time -=5;
+            return console.log('Incorrect!');
+        }
+    }
+
 }
 
 
