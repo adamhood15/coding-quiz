@@ -69,17 +69,21 @@ function startTimer() {
         if (time > 0) {
         time--;
         timer.textContent = `Time left: ${time} seconds`;
-        } 
+        } else {
+            timer.textContent = `TIME'S UP!`;
+            document.body.style.backgroundColor = 'red';
+        }
     }, 1000);
 }
 
-
+//Removes home content from webpage
 function hideHome() {
-    document.querySelector('p').style.visibility = 'hidden';
+    document.querySelector('p').remove();
+    startButton.textContent = 'Next Question';
     startButton.style.visibility = 'hidden';
-   
 }
 
+//Hide answer choice buttons on page load
 function hideChoices() {
     answerButtonsContainer.style.visibility = 'hidden';
 
@@ -90,30 +94,12 @@ function displayQuestion() {
     document.body.style.backgroundColor = 'blue';
     answerButtonsContainer.style.visibility = 'visible';
 
-
-    answerChoice1.textContent = Object.values(answerChoices.answer1)[0];
-    answerChoice2.textContent = Object.values(answerChoices.answer1)[1];
-    answerChoice3.textContent = Object.values(answerChoices.answer1)[2];
-    answerChoice4.textContent = Object.values(answerChoices.answer1)[3];
-
-    for (var i = 0; i < Object.keys(questions).length; i++) {
-        var question = questionHeader.textContent = Object.values(questions)[i];
-        return question;
-    }
-
 }
 
 //Next Question Function
 function nextQuestion() {
-    body.backgroundColor = 'yellow';
+    body.backgroundColor = 'blue';
 
-    //Object.keys allows you to get the length of the keys of your object
-    //Object.values allows you to pull the values from your object
-
-        for (var i = 0; i < Object.keys(questions).length; i++) {
-            var question = document.querySelector('h2').textContent = Object.values(questions)[i];
-            return question;
-        }
 
 
 }
