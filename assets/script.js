@@ -12,33 +12,47 @@ var answerChoice4 = document.querySelector('#answer-choice-4');
 
 var time = 60;
 
-//Stores all question in object
-var questions = {
-    'question1': 'What does HTML stand for?',
-    'question2': 'What does CSS stand for?',
+//Stores all question in array with the answers
+var questions = [
+    {
+    'question': 'What does HTML stand for?',
+    'choices': ['HyperText Markdown Language', 
+                'HooperText Markup Language',
+                'HyperText Markup Language', 
+                'HighTight Marker Language'],
+    'answer': 'HyperText Markdown Language'},
+
+    {
+    'question': 'What does CSS stand for?',
+    'choices': ['Cascading Short Script',
+                'Cascading Style Script', 
+                'Cascading Style Sheet', 
+                'Cat Style Sheet'],
+    'answer': 'Cascading Style Sheet'},
+
+    {
     'question3': 'What does HTML do?',
+    'choices': ['Styles the webpage',
+                'Contains the content of the webpage', 
+                'Changes the style of the document body', 
+                'Makes the webpage interactive'],
+    'answer': 'Contains the content of the webpage'},
+    {
     'question4': 'What does CSS do?',
-    'question5': 'What does JavaScript do?'
-}
+    'choices': ['Styles the paragraphs of a webpage',
+                'Holds the content of the webpage', 
+                'Makes the webpage interactive', 
+                'Styles the webpage'],
+    'answer': 'Styles the webpage'},
+    {
+    'question5': 'What does JavaScript do?',
+    'choices': ['Makes the webpage interactive',
+                'Holds the content of the page', 
+                'Changes the font of the page', 
+                'Styles the webpage'],
+    'answer': 'Makes the webpage interactive'}
+]
 
-//Store answer objects within an object called answers
-var answerChoices = {
-    'answer1' : {'a': 'HyperText Mardown Language', 'b': 'HooperText Markup Language',
-                    'c': 'HyperText Markup Language', 'd': 'HighTight Marker Language'},
-
-    'answer2' : {'a': 'Cascading Short Script', 'b': 'Cascading Style Script',
-                    'c': 'Cascading Style Sheet', 'd': 'Cat Stye Shet'},
-
-    'answer3' : {'a': 'Styles the webpage', 'b': 'Contains the content of the webpage',
-                    'c': 'Changes the style of the document body', 'd': 'Makes the webpage interactive'},
-
-    'answer4' : {'a': 'Styles the paragraphs of a webpage', 'b': 'Holds the content of the page',
-                    'c': 'Makes the webpage interactive', 'd': 'Styles the webpage'},
-
-    'answer5' : {'a': 'Makes the webpage interactive', 'b': 'Holds the content of the page',
-                    'c': 'Changes the font of the page', 'd': 'Styles the webpage'}
-                
-}
 
 
 //Initiates the start of the application
