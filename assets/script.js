@@ -9,8 +9,11 @@ var answerChoice1 = document.querySelector('#answer-choice-1');
 var answerChoice2 = document.querySelector('#answer-choice-2');
 var answerChoice3 = document.querySelector('#answer-choice-3');
 var answerChoice4 = document.querySelector('#answer-choice-4');
+var next = true;
 
 var time = 60;
+var counter = 0;
+
 
 //Stores all question in array with the answers
 var questions = [
@@ -31,21 +34,21 @@ var questions = [
     'answer': 'Cascading Style Sheet'},
 
     {
-    'question3': 'What does HTML do?',
+    'question': 'What does HTML do?',
     'choices': ['Styles the webpage',
                 'Contains the content of the webpage', 
                 'Changes the style of the document body', 
                 'Makes the webpage interactive'],
     'answer': 'Contains the content of the webpage'},
     {
-    'question4': 'What does CSS do?',
+    'question': 'What does CSS do?',
     'choices': ['Styles the paragraphs of a webpage',
                 'Holds the content of the webpage', 
                 'Makes the webpage interactive', 
                 'Styles the webpage'],
     'answer': 'Styles the webpage'},
     {
-    'question5': 'What does JavaScript do?',
+    'question': 'What does JavaScript do?',
     'choices': ['Makes the webpage interactive',
                 'Holds the content of the page', 
                 'Changes the font of the page', 
@@ -58,9 +61,11 @@ var questions = [
 //Initiates the start of the application
 function quizStart() {
   
+    document.body.style.backgroundColor = 'blue';
+
     startTimer();
     hideHome();
-    displayQuestion();
+    nextQuestion();
 }
 
 //Timer function
@@ -90,22 +95,24 @@ function hideChoices() {
 }
 
 
-function displayQuestion() {
-    document.body.style.backgroundColor = 'blue';
+
+function nextQuestion() {
     answerButtonsContainer.style.visibility = 'visible';
 
+
+    for (let i = 0; i <= counter; i++) {
+            questionHeader.textContent = questions[i].question;
+            answerChoice1.textContent = questions[i].choices[0];
+            answerChoice2.textContent = questions[i].choices[1];
+            answerChoice3.textContent = questions[i].choices[2];
+            answerChoice4.textContent = questions[i].choices[3];
+        }
+    counter++;
+
 }
+
 
 //Next Question Function
-function nextQuestion() {
-    body.backgroundColor = 'blue';
-
-
-
-}
-
-
-console.log(document.querySelectorAll('.answer-choices'));
 
 
 //Create Questions for the test
@@ -114,7 +121,4 @@ console.log(document.querySelectorAll('.answer-choices'));
 startButton.addEventListener('click', quizStart);
 
 answerButtons.forEach(element => {
-    element.addEventListener('click', function(){
-        questionHeader.style.color = 'blue';
-    })
-}) 
+    element.addEventListener('click', nextQuestion)});
