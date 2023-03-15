@@ -10,9 +10,12 @@ var answerChoice2 = document.querySelector('#answer-choice-2');
 var answerChoice3 = document.querySelector('#answer-choice-3');
 var answerChoice4 = document.querySelector('#answer-choice-4');
 var nextButton = document.querySelector('#next-question');
+var scoreDisplay = document.querySelector('#score');
 
 var time = 60;
+//counter for next question loop
 var counter = 0;
+var score = 0;
 
 
 //Stores all question in array with the answers
@@ -62,6 +65,7 @@ var questions = [
 //Initiates the start of the application
 function quizStart() {
   
+
     document.body.style.backgroundColor = 'blue';
     nextButton.style.visibility = 'visible';
 
@@ -81,6 +85,10 @@ function startTimer() {
             document.body.style.backgroundColor = 'red';
         }
     }, 1000);
+}
+
+function displayScore() {
+    scoreDisplay.textContent = `Score: ${score}`;
 }
 
 //Removes home content from webpage
@@ -125,17 +133,23 @@ function feedback(event) {
         if ((event.target.textContent == questions[0].answer) ||
             (event.target.textContent == questions[1].answer) ||
             (event.target.textContent == questions[2].answer) ||
-            (event.target.textContent == questions[3].answer)) {
+            (event.target.textContent == questions[3].answer) ||
+            (event.target.textContent == questions[4].answer)) {
 
             document.body.style.backgroundColor = 'green';
-            return console.log(event.target.textContent);
+            score +=5;
+            displayScore();
+            return;
 
         } else {
             document.body.style.backgroundColor = 'red';
-            time -=5;
-            return console.log('Incorrect!');
+            time -= 5;
+            score -= 5;
+            displayScore();
+            return;
         }
     }
+
 
 }
 
