@@ -9,8 +9,7 @@ var answerChoice1 = document.querySelector('#answer-choice-1');
 var answerChoice2 = document.querySelector('#answer-choice-2');
 var answerChoice3 = document.querySelector('#answer-choice-3');
 var answerChoice4 = document.querySelector('#answer-choice-4');
-var contentContainer = document.querySelector('.content');
-var next = true;
+var nextButton = document.querySelector('#next-question');
 
 var time = 60;
 var counter = 0;
@@ -63,10 +62,7 @@ var questions = [
 function quizStart() {
   
     document.body.style.backgroundColor = 'blue';
-    var nextButton = document.createElement('button')
-    contentContainer.appendChild(nextButton);
-    nextButton.textContent = 'Next Question';
-    nextButton.style = 'width: 100%; background-color: black; color: white;';
+    nextButton.style.visibility = 'visible';
 
     startTimer();
     hideHome();
@@ -104,7 +100,6 @@ function hideChoices() {
 function nextQuestion() {
     answerButtonsContainer.style.visibility = 'visible';
 
-
     for (let i = 0; i <= counter; i++) {
             questionHeader.textContent = questions[i].question;
             answerChoice1.textContent = questions[i].choices[0];
@@ -116,10 +111,12 @@ function nextQuestion() {
    
     
     counter++;
-    console.log(userChoice);
 
 }
 
+function feedback() {
+    
+}
 
 
 
@@ -129,4 +126,6 @@ function nextQuestion() {
 startButton.addEventListener('click', quizStart);
 
 answerButtons.forEach(element => {
-    element.addEventListener('click', nextQuestion)});
+    element.addEventListener('click', feedback)});
+
+nextButton.addEventListener('click', nextQuestion);
