@@ -11,6 +11,7 @@ var answerChoice3 = document.querySelector('#answer-choice-3');
 var answerChoice4 = document.querySelector('#answer-choice-4');
 var nextButton = document.querySelector('#next-question');
 var scoreDisplay = document.querySelector('#score');
+var contentContainer = document.querySelector('.content');
 
 var time = 60;
 //counter for next question loop
@@ -69,13 +70,14 @@ function quizStart() {
     document.body.style.backgroundColor = 'blue';
     nextButton.style.visibility = 'visible';
 
-    startTimer();
+    timeLeft;
     hideHome();
     nextQuestion();
+
 }
 
 //Timer function
-function startTimer() {
+var timeLeft = function startTimer() {
     setInterval (function () {
         if (time > 0) {
         time--;
@@ -85,6 +87,10 @@ function startTimer() {
             document.body.style.backgroundColor = 'red';
         }
     }, 1000);
+
+    function stopTimer() {
+        clearInterval(timeLeft);
+    }
 }
 
 function displayScore() {
@@ -110,6 +116,9 @@ function nextQuestion() {
     answerButtonsContainer.style.visibility = 'visible';
     document.body.style.backgroundColor = 'blue';
 
+    endQuiz();
+
+
     for (let i = 0; i <= counter; i++) {
             questionHeader.textContent = questions[i].question;
             answerChoice1.textContent = questions[i].choices[0];
@@ -118,14 +127,14 @@ function nextQuestion() {
             answerChoice4.textContent = questions[i].choices[3];
         }
     
-   
-    
     counter++;
 
+    
 }
 
 
 function feedback(event) {
+
 
 
     for (let j = 0; j <= questions.length; j++) {
@@ -136,9 +145,10 @@ function feedback(event) {
             (event.target.textContent == questions[3].answer) ||
             (event.target.textContent == questions[4].answer)) {
 
-            document.body.style.backgroundColor = 'green';
             score +=5;
             displayScore();
+            nextQuestion();
+            document.body.style.backgroundColor = 'green';
             return;
 
         } else {
@@ -150,6 +160,37 @@ function feedback(event) {
         }
     }
 
+
+}
+
+function endQuiz() {
+    answerButtonsContainer.remove();
+    questionHeader.remove();
+    nextButton.remove();
+    document.body.style.backgroundColor = 'yellow';
+
+    var finalScore = score += time;
+    timer.textContent = 'Quiz Over';
+    
+    //Create Form to submit your initials for leaderboard
+    var form = document.createElement('form');
+    var label1 = document.createElement('label');
+    var label2 = document.createElement('label');
+
+
+    form.textContent = 'Great Job! Please input your initials to register your high score to the leaderboard.'
+    label1.textContent = `Score: ${finalScore}`;
+    label2.textContent = `Score: ${finalScore}`;
+
+    label1.style.display = 'block';
+    label2.style.display = 'block';
+
+    contentContainer.appendChild(form);
+    form.appendChild(label1);
+    form.appendChild(lable2);
+
+
+    stopTimer();
 
 }
 
