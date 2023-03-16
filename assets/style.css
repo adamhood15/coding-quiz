@@ -33,9 +33,22 @@ h1 {
     text-align: center;
 }
 
-#a, #b, #c, #d {
+.answer-buttons {
     visibility: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.answer-choices {
+    margin: 5px;
+}
+
+#next-question {
     display: block;
+    visibility: hidden;
+    width: 100%;
+    background-color: grey;
+    color: white;
 }
 
 
