@@ -223,15 +223,21 @@ contentContainer.addEventListener('click', function(event) {
     if (event.target.textContent == 'Submit Score') {
         
         var form = document.querySelector('form');
-        var userInitials = localStorage.setItem('Initials', userInput);
-        var userScore = localStorage.setItem('Score', score);
+        localStorage.setItem('Initials', userInput);
+        localStorage.setItem('Score', score);
+        var userInitials = localStorage.getItem('Initials');
+        var userScore = localStorage.getItem('Score');
 
         //Removes submission form
         form.remove();
 
-        var table = document.createElement('table');
+        var leaderBoard = document.createElement('ol');
+        var liEl = document.createElement('li');
 
-        contentContainer.appendChild(table);
+        leaderBoard.textContent = 'Leader Board';
+        liEl.textContent = `Initials: ${userInitials} Score: ${userScore}`;
 
+        contentContainer.appendChild(leaderBoard);
+        leaderBoard.appendChild(liEl);
     }
 })
