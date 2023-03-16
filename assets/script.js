@@ -176,21 +176,28 @@ function endQuiz() {
     var form = document.createElement('form');
     var label1 = document.createElement('label');
     var label2 = document.createElement('label');
+    var initialsInput = document.createElement('input');
+    var submitButton = document.createElement('button');
+    
+    var input = document.querySelector('input');
 
 
     form.textContent = 'Great Job! Please input your initials to register your high score to the leaderboard.'
-    label1.textContent = `Score: ${finalScore}`;
+    label1.textContent = `Initials: `;
     label2.textContent = `Score: ${finalScore}`;
+    submitButton.textContent = 'Submit Score';
+
 
     label1.style.display = 'block';
     label2.style.display = 'block';
+    submitButton.setAttribute('class', 'submit');
 
     contentContainer.appendChild(form);
     form.appendChild(label1);
-    form.appendChild(lable2);
+    form.appendChild(label2);
+    label1.appendChild(initialsInput);
+    form.appendChild(submitButton);
 
-
-    stopTimer();
 
 }
 
@@ -205,3 +212,26 @@ answerButtons.forEach(element => {
     element.addEventListener('click', feedback)});
 
 nextButton.addEventListener('click', nextQuestion);
+
+//When you click submit form, this executes
+contentContainer.addEventListener('click', function(event) {
+
+    var input = document.querySelector('input');
+    var userInput = input.value;
+    event.preventDefault();
+//Only executes if you click submit score button
+    if (event.target.textContent == 'Submit Score') {
+        
+        var form = document.querySelector('form');
+        var userInitials = localStorage.setItem('Initials', userInput);
+        var userScore = localStorage.setItem('Score', score);
+
+        //Removes submission form
+        form.remove();
+
+        var table = document.createElement('table');
+
+        contentContainer.appendChild(table);
+
+    }
+})
