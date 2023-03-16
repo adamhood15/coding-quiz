@@ -12,6 +12,7 @@ var answerChoice4 = document.querySelector('#answer-choice-4');
 var nextButton = document.querySelector('#next-question');
 var scoreDisplay = document.querySelector('#score');
 var contentContainer = document.querySelector('.content');
+var tryAgainButton = document.querySelector('#try-again');
 
 var time = 60;
 //counter for next question loop
@@ -60,8 +61,7 @@ var questions = [
     'answer': 'Makes the webpage interactive'}
 ]
 
-
-
+const users = [];
 
 //Initiates the start of the application
 function quizStart() {
@@ -167,6 +167,7 @@ function endQuiz() {
     answerButtonsContainer.remove();
     questionHeader.remove();
     nextButton.remove();
+    tryAgainButton.style.visibility = 'visible';
     document.body.style.backgroundColor = 'yellow';
 
     var finalScore = score += time;
@@ -201,43 +202,56 @@ function endQuiz() {
 
 }
 
+function leaderBoardDisplay(event) {
+
+    var input = document.querySelector('input');
+    var userInput = input.value;
+    event.preventDefault();
+//Creates leader board page when you click on the Submit Score Button
+    if (event.target.textContent == 'Submit Score') {
+        
+
+        localStorage.setItem('Initials', userInput);
+        localStorage.setItem('Score', score);
+
+        var form = document.querySelector('form');
+        var userInitials = localStorage.getItem('Initials');
+        var userScore = localStorage.getItem('Score');
+
+        console.log(users);
+        form.remove();
+
+        //Removes submission form
+
+        var leaderBoard = document.createElement('ol');
+        var liEl = document.createElement('li');
+
+
+        leaderBoard.textContent = 'Leader Board';
+        liEl.textContent = `${userInitials} - ${userScore} Points`;
+
+        contentContainer.appendChild(leaderBoard);
+        leaderBoard.appendChild(liEl);
+
+    }
+}
+
 
 
 //Create Questions for the test
 
-//Add event listeners for each button
+//Starts quiz when you click startButton
 startButton.addEventListener('click', quizStart);
 
+//Click events for answer choices either provides feedback or goes to next question
 answerButtons.forEach(element => {
     element.addEventListener('click', feedback)});
 
 nextButton.addEventListener('click', nextQuestion);
 
 //When you click submit form, this executes
-contentContainer.addEventListener('click', function(event) {
+contentContainer.addEventListener('click', leaderBoardDisplay);
 
-    var input = document.querySelector('input');
-    var userInput = input.value;
-    event.preventDefault();
-//Only executes if you click submit score button
-    if (event.target.textContent == 'Submit Score') {
-        
-        var form = document.querySelector('form');
-        localStorage.setItem('Initials', userInput);
-        localStorage.setItem('Score', score);
-        var userInitials = localStorage.getItem('Initials');
-        var userScore = localStorage.getItem('Score');
-
-        //Removes submission form
-        form.remove();
-
-        var leaderBoard = document.createElement('ol');
-        var liEl = document.createElement('li');
-
-        leaderBoard.textContent = 'Leader Board';
-        liEl.textContent = `Initials: ${userInitials} Score: ${userScore}`;
-
-        contentContainer.appendChild(leaderBoard);
-        leaderBoard.appendChild(liEl);
-    }
+tryAgainButton.addEventListener('click', function() {
+    window.location.reload();
 })
