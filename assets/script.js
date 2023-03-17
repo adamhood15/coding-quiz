@@ -14,6 +14,7 @@ var timer = document.getElementById('time-left');
 var startButton = document.getElementById('start');
 var gameOn = false;
 
+
 //counter for next question loop
 var time = 60;
 var counter = 0;
@@ -181,7 +182,7 @@ function endQuiz() {
     tryAgainButton.style.visibility = 'visible';
     scoreDisplay.textContent = `Final Score: ${finalScore}`;
     timer.textContent = 'Quiz Over';
-    form.textContent = 'Great Job! Please input your initials to register your high score to the leaderboard.'
+    form.textContent = 'Great Job! Please input your name to register your high score to the leaderboard.'
     label1.textContent = `Initials: `;
     label2.textContent = `Score: ${finalScore}`;
     submitButton.textContent = 'Submit Score';
@@ -208,35 +209,40 @@ function leaderBoardDisplay(event) {
 //Creates leader board page when you click on the Submit Score Button
     if (event.target.textContent == 'Submit Score') {
 
-
+        //Stores user initials and score in an object
         var userInput = input.value;
+        //Validation of initials
+        if (userInput === '') {
+            alert('Please type in a name');
+            leaderBoardDisplay();
+        }
         var highScore = {'initials': userInput, 'score': finalScoreArray[0]}
+        var form = document.querySelector('form');
+        form.remove();
 
+        /*Checks if there is a score in local storage. If there is it replaces the high score
+        array with the value in local storage*/
         if (getHiScore) {
             highScoreArray = (JSON.parse(getHiScore));
         }
         highScoreArray.push(highScore);
         localStorage.setItem('High Score List', JSON.stringify(highScoreArray));
 
-        console.log(highScoreArray);
-
-        var form = document.querySelector('form');
-        var userInitials = localStorage.getItem('Initials');
-        var userScore = localStorage.getItem('Score');
-
-        form.remove();
-
-        //Removes submission form
-
         var leaderBoard = document.createElement('ol');
-        var liEl = document.createElement('li');
-
-
         leaderBoard.textContent = 'Leader Board';
-        liEl.textContent = `${userInitials} - ${userScore} Points`;
-
         contentContainer.appendChild(leaderBoard);
-        leaderBoard.appendChild(liEl);
+   
+        highScoreArray.sort(
+            (hs1, hs2) =>
+            (hs1.score < hs2.score) ? 1 : (hs1.score > hs2.score) ? -1: 0);
+
+        for (i = 0; i < highScoreArray.length; i++) {
+            var liEl = document.createElement('li')
+            liEl.textContent = highScoreArray[i].initials + ': ' + highScoreArray[i].score;
+            leaderBoard.appendChild(liEl);
+
+        }
+
 
     }
 }
