@@ -12,11 +12,15 @@ var contentContainer = document.querySelector('.content');
 var tryAgainButton = document.querySelector('#try-again');
 var timer = document.getElementById('time-left');
 var startButton = document.getElementById('start');
+var gameOn = false;
 
 //counter for next question loop
 var time = 60;
 var counter = 0;
 var score = 0;
+var highScoreArray = [];
+var finalScoreArray = [];
+
 
 
 //Stores each question as objects in array
@@ -71,24 +75,52 @@ var questions = [
 //Initiates the start of the application
 function quizStart() {
 
+    gameOn = true;
     //Removes homepage content
-    document.body.style.backgroundColor = 'blue';
+    answerButtonsContainer.style.visibility = 'visible';
+
     startButton.style.visibility = 'hidden';
     document.querySelector('p').remove();
-
 
     //Starts Timer and Displays first question
     startTimer();
     nextQuestion();
+    document.body.style.backgroundColor = 'blue';
 
+}
+
+//Loops through to the next question every time a user clicks on an answer choice
+function nextQuestion() {
+    document.body.style.backgroundColor = 'green';
+    scoreDisplay.textContent = `Score: ${score}`;
+
+
+    for (let i = 0; i <= counter; i++) {
+
+        if (questions[i] && questions[i].question) {
+            questionHeader.textContent = questions[i].question;
+            answerChoice1.textContent = questions[i].choices[0];
+            answerChoice2.textContent = questions[i].choices[1];
+            answerChoice3.textContent = questions[i].choices[2];
+            answerChoice4.textContent = questions[i].choices[3];
+       
+        } else {
+            endQuiz();
+            clearInterval(startTimer);
+        }
+    }
+    counter++;
+    
 }
 
 //Starts Timer function
 function startTimer() {
     var startTimer = setInterval (function () {
+
+        if (gameOn) {
         time--;
         timer.textContent = `Time left: ${time} seconds`;
-
+        }
         if (time <= 0) {
             clearInterval(startTimer);
             endQuiz();
@@ -98,28 +130,9 @@ function startTimer() {
 
 }
 
-//Loops through to the next question every time a user clicks on an answer choice
-function nextQuestion() {
-    answerButtonsContainer.style.visibility = 'visible';
-    document.body.style.backgroundColor = 'blue';
-
-    for (let i = 0; i <= counter; i++) {
-
-            questionHeader.textContent = questions[i].question;
-            answerChoice1.textContent = questions[i].choices[0];
-            answerChoice2.textContent = questions[i].choices[1];
-            answerChoice3.textContent = questions[i].choices[2];
-            answerChoice4.textContent = questions[i].choices[3];
-
-       
-        }
-    
-    counter++;
-
-    
-}
-
-
+//Currently hard coded all answers into feedback loop. Will need to hardcode answers as you create new ones
+//If question is correct, changes background color and moves to next question
+//If question is wrong, changes background color to red and subtracts time from timer
 function feedback(event) {
 
     for (let j = 0; j <= questions.length; j++) {
@@ -131,16 +144,13 @@ function feedback(event) {
             (event.target.textContent == questions[4].answer)) {
 
             score +=5;
-            scoreDisplay.textContent = `Score: ${score}`;
             nextQuestion();
-            document.body.style.backgroundColor = 'green';
             return;
 
         } else {
             document.body.style.backgroundColor = 'red';
             time -= 5;
             score -= 5;
-            scoreDisplay.textContent = `Score: ${score}`;
             return;
         }
     }
@@ -148,31 +158,33 @@ function feedback(event) {
 
 }
 
-function endQuiz() {
-    answerButtonsContainer.remove();
-    questionHeader.remove();
-    tryAgainButton.style.visibility = 'visible';
-    document.body.style.backgroundColor = 'yellow';
 
-    var finalScore = score += time;
-    timer.textContent = 'Quiz Over';
+//Ends the quiz and allows user to input high score
+//Triggers when you answer last question correctly or time runs out
+function endQuiz() {
     
+    var finalScore = score += time;
+    finalScoreArray.push(finalScore);
     //Create Form to submit your initials for leaderboard
     var form = document.createElement('form');
     var label1 = document.createElement('label');
     var label2 = document.createElement('label');
     var initialsInput = document.createElement('input');
     var submitButton = document.createElement('button');
-    
-    var input = document.querySelector('input');
 
+    answerButtonsContainer.remove();
+    questionHeader.remove();
 
+    gameOn = false;
+   
+    document.body.style.backgroundColor = 'yellow';
+    tryAgainButton.style.visibility = 'visible';
+    scoreDisplay.textContent = `Final Score: ${finalScore}`;
+    timer.textContent = 'Quiz Over';
     form.textContent = 'Great Job! Please input your initials to register your high score to the leaderboard.'
     label1.textContent = `Initials: `;
     label2.textContent = `Score: ${finalScore}`;
     submitButton.textContent = 'Submit Score';
-
-
     label1.style.display = 'block';
     label2.style.display = 'block';
     submitButton.setAttribute('class', 'submit');
@@ -183,20 +195,30 @@ function endQuiz() {
     label1.appendChild(initialsInput);
     form.appendChild(submitButton);
 
-
 }
 
+//Displays leaderboard that was stored by localStorage
 function leaderBoardDisplay(event) {
 
     var input = document.querySelector('input');
-    var userInput = input.value;
     event.preventDefault();
+    var getHiScore = localStorage.getItem('High Score List');
+
+   
 //Creates leader board page when you click on the Submit Score Button
     if (event.target.textContent == 'Submit Score') {
-        
 
-        localStorage.setItem('Initials', userInput);
-        localStorage.setItem('Score', score);
+
+        var userInput = input.value;
+        var highScore = {'initials': userInput, 'score': finalScoreArray[0]}
+
+        if (getHiScore) {
+            highScoreArray = (JSON.parse(getHiScore));
+        }
+        highScoreArray.push(highScore);
+        localStorage.setItem('High Score List', JSON.stringify(highScoreArray));
+
+        console.log(highScoreArray);
 
         var form = document.querySelector('form');
         var userInitials = localStorage.getItem('Initials');
@@ -220,9 +242,6 @@ function leaderBoardDisplay(event) {
 }
 
 
-
-//Create Questions for the test
-
 //Starts quiz when you click startButton
 startButton.addEventListener('click', quizStart);
 
@@ -231,7 +250,7 @@ answerButtons.forEach(element => {
     element.addEventListener('click', feedback)});
 
 //When you click submit form, this executes
-contentContainer.addEventListener('dblclick', leaderBoardDisplay);
+contentContainer.addEventListener('click', leaderBoardDisplay);
 
 tryAgainButton.addEventListener('click', function() {
     window.location.reload();
