@@ -179,7 +179,7 @@ function endQuiz() {
     gameOn = false;
    
     document.body.style.backgroundColor = 'yellow';
-    tryAgainButton.style.visibility = 'visible';
+    tryAgainButton.style.display = 'inline-block';
     scoreDisplay.textContent = `Final Score: ${finalScore}`;
     timer.textContent = 'Quiz Over';
     form.textContent = 'Great Job! Please input your name to register your high score to the leaderboard.'
@@ -189,6 +189,8 @@ function endQuiz() {
     label1.style.display = 'block';
     label2.style.display = 'block';
     submitButton.setAttribute('class', 'submit');
+    submitButton.classList.add('btn', 'btn-outline-dark');
+
 
     contentContainer.appendChild(form);
     form.appendChild(label1);
