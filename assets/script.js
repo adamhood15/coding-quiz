@@ -78,7 +78,7 @@ function quizStart() {
 
     gameOn = true;
     //Removes homepage content
-    answerButtonsContainer.style.visibility = 'visible';
+    answerButtonsContainer.style.display = 'flex';
 
     startButton.style.visibility = 'hidden';
     document.querySelector('p').remove();
@@ -179,22 +179,23 @@ function endQuiz() {
     gameOn = false;
    
     document.body.style.backgroundColor = 'yellow';
-    tryAgainButton.style.display = 'inline-block';
     scoreDisplay.textContent = `Final Score: ${finalScore}`;
     timer.textContent = 'Quiz Over';
-    form.textContent = 'Great Job! Please input your name to register your high score to the leaderboard.'
-    label1.textContent = `Initials: `;
     label2.textContent = `Score: ${finalScore}`;
+    label1.textContent = `Initials: `;
     submitButton.textContent = 'Submit Score';
     label1.style.display = 'block';
     label2.style.display = 'block';
     submitButton.setAttribute('class', 'submit');
     submitButton.classList.add('btn', 'btn-outline-dark');
+    form.setAttribute('class', 'm-5');
+    label1.setAttribute('class', 'mb-3');
+    label2.setAttribute('class', 'mb-3');
 
 
     contentContainer.appendChild(form);
-    form.appendChild(label1);
     form.appendChild(label2);
+    form.appendChild(label1);
     label1.appendChild(initialsInput);
     form.appendChild(submitButton);
 
@@ -230,8 +231,14 @@ function leaderBoardDisplay(event) {
         highScoreArray.push(highScore);
         localStorage.setItem('High Score List', JSON.stringify(highScoreArray));
 
+        tryAgainButton.style.display = 'inline-block';
+        startButton.display = 'none';
         var leaderBoard = document.createElement('ol');
         leaderBoard.textContent = 'Leader Board';
+        leaderBoard.style.border = 'solid, 2px, black';
+        leaderBoard.setAttribute('class', 'list-group');
+        leaderBoard.setAttribute('class', 'list-group-numbered');
+
         contentContainer.appendChild(leaderBoard);
    
         highScoreArray.sort(
@@ -240,6 +247,7 @@ function leaderBoardDisplay(event) {
 
         for (i = 0; i < highScoreArray.length; i++) {
             var liEl = document.createElement('li')
+            liEl.setAttribute('class', 'list-group-item');
             liEl.textContent = highScoreArray[i].initials + ': ' + highScoreArray[i].score;
             leaderBoard.appendChild(liEl);
 
