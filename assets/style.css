@@ -9,11 +9,12 @@ header, footer {
 }
 
 h1 {
-    font-size: 25px;
+    font-size: 2rem;
 }
 
 p {
     margin: 2rem;
+    font-size: 1rem;
 }
 
 #score, #time-left {
@@ -44,3 +45,9 @@ p {
     width: auto;
 }
 
+@media screen and (min-width: 750px) {
+    p {
+        font-size: 1.5rem;
+    };
+    
+}
